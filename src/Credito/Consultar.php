@@ -5,6 +5,8 @@ namespace App\Credito;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+use App\Credito\CpfJson;
+
 class Consultar {
 	
 	public static function curl($url, $cookies, $post, $referer=null, $header=true, $proxy=null) {
@@ -40,20 +42,60 @@ class Consultar {
 	}
 
 	public static function cpf(Request $request, Response $response, $args) {
-		print_r($args);
-		die;
-		$data = array('pagina' => 'consulta cpf');
+
+		global $app;
+		// Sample log message
+		$c = $app->getContainer();
+
+		$tokenx = apache_request_headers()["Authorization"];
+		
+		$c->logger->addInfo("creditoCpf", [
+				'token' => $tokenx,
+                'error' => false,
+        ]);
+		$doc = $args['cpf'];
+
+		if(!preg_match("#^([0-9]){3}([0-9]){3}([0-9]){3}([0-9]){2}$#i", $doc)) {
+			$dataok = ['msg' => 'doc invalido.'];
+		} else {
+
+			$url = 'http://181.215.238.197/credito.php?token=bfc4abb1449d4d2d50e691f46a0aa916&doc='.$doc;
+			$dados = self::curl($url, null, null, null, false);
+			if(stristr($dados, 'ES CONFIDENCIAIS')) {
+
+				$limpar = new CpfJson();
+				$ver = $limpar->run($dados);
+				if($ver === false) {
+					$dataok = ['msg' => 'nada encontrado'];
+				}
+				$dataok = $ver;
+
+			} else {
+				$dataok = ['msg' => 'nada encontrado.'];
+			}
+			
+		}
+
+		$data = $dataok;
 		return $response->withJson($data);
 	}
 	
 	public static function cnpj(Request $request, Response $response, $args) {
-		print_r($args);
-		die;
-		$data = array('pagina' => 'consulta cpf');
+//		print_r($args);
+//		die;
+		$data = array('pagina' => 'consultar cnpj, em desenvolvimento');
 		return $response->withJson($data);
 	}
 
 	public static function consumo(Request $request, Response $response, $args) {
+
+		global $app;
+		$c = $app->getContainer();
+		$tokenx = apache_request_headers()["Authorization"];
+		
+		$c->logger->addInfo("token: $tokenx", [
+                'error' => false,
+        ]);
 
 		$url = 'http://181.215.238.197/getInfo.php?token=bfc4abb1449d4d2d50e691f46a0aa916';
 
@@ -62,6 +104,10 @@ class Consultar {
 		if(stristr($dados, '{"info":')) {
 			$dados = json_decode($dados, true);
 		}else{
+			$c->logger->error("token: $tokenx", [
+	                'error' => true,
+	                'msg' => 'erro ao consultar o saldo direto no 197.'
+	        ]);			
 			$dados = ['msg' => 'indisponivel no momento.'];
 		}
 		

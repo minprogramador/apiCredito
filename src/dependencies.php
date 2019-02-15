@@ -6,7 +6,11 @@ $container = $app->getContainer();
 
 $container['notFoundHandler'] = function ($c) {
 	return function ($request, $response) use ($c) {
-	$c->logger->alert("acesso.incomum");
+	$tokenx = apache_request_headers()["Authorization"];
+	$c->logger->error("token: $tokenx", [
+        'error' => true,
+        'msg' => 'pagina invalida.'
+    ]);
 
 	$response = new \Slim\Http\Response(404);
 		return $response->write("Page not found");
