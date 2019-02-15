@@ -23,5 +23,6 @@ $authenticator = function($request, TokenAuthentication $tokenAuth) use($app){
 
 $app->add(new TokenAuthentication([
     'path' => ['/api'],
-    'authenticator' => $authenticator
+    'authenticator' => $authenticator,
+    'secure' => false
 ]));
