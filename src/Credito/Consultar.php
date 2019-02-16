@@ -81,10 +81,44 @@ class Consultar {
 	}
 	
 	public static function cnpj(Request $request, Response $response, $args) {
-//		print_r($args);
-//		die;
-		$data = array('pagina' => 'consultar cnpj, em desenvolvimento');
+
+		global $app;
+		$c = $app->getContainer();
+		$tokenx = apache_request_headers()["Authorization"];
+		
+		$c->logger->addInfo("creditoCnpj", [
+							'token' => $tokenx,
+							'error' => false,
+							]);
+		$doc = $args['cnpj'];
+		
+		if(!preg_match("#^[0-9]{2}?[0-9]{3}?[0-9]{3}?[0-9]{4}?[0-9]{2}$#i", $doc)) {
+			$dataok = ['msg' => 'doc invalido.'];
+		} else {
+			
+			$url = 'http://181.215.238.197/credito.php?token=bfc4abb1449d4d2d50e691f46a0aa916&doc='.$doc;
+			$dados = self::curl($url, null, null, null, false);
+			
+			if(stristr($dados, 'ES CONFIDENCIAIS')) {
+				echo $dados;
+				die;
+//				$limpar = new CpfJson();
+//				$ver = $limpar->run($dados);
+//				if($ver === false) {
+//					$dataok = ['msg' => 'nada encontrado'];
+//				}
+//				$dataok = $ver;
+				
+			} else {
+				$dataok = ['msg' => 'nada encontrado.'];
+			}
+			
+		}
+		
+		$data = $dataok;
 		return $response->withJson($data);
+
+
 	}
 
 	public static function consumo(Request $request, Response $response, $args) {
