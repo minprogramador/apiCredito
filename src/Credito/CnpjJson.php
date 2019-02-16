@@ -13,6 +13,15 @@ class CnpjJson {
 		return str_replace(array("\n",'  ','	'), '', $value);
 	}
 	
+	public static function clean($value) {
+		if(is_array($value)){
+			return $value;
+		}
+		$clear = str_replace(["\n",'  ','	', "\t", "\r"], '', $value);
+		$clear = trim(rtrim($clear));
+		$clear = str_replace('</td>', '', $clear);
+		return $clear;
+	}
 
 
 	public static function corta($str, $left, $right) {
@@ -528,57 +537,57 @@ class CnpjJson {
 		
 		
 		$identificacaoOk = [
-		'razao' => $razao,
-		'cnpj' => $cnpj,
-		'nire' => $nire,
-		'fantasia' => $fantasia,
-		'razao_anterior' => $razao_anterior,
-		'data' => $data,
-		'fundacao' => $fundacao,
-		'encerramento' => $encerramento,
-		'inscr' => $inscr,
-		'situacao_cnpj' => $situacao_cnpj,
-		'dt_cnpj' => $dt_cnpj,
-		'consultado_cnpj' => $consultado_cnpj,
-		'situacao_sintegra' => $situacao_sintegra,
-		'dt_sintegra' => $dt_sintegra,
-		'consultado_sintegra' => $consultado_sintegra,
-		'natureza' => $natureza,
-		'faixa_func' => $faixa_func,
-		'filiais' => $filiais,
-		'ativ_prim' => $ativ_prim,
-		'ativ_sec' => $ativ_sec,
-		'cidades' => $cidades
+		'razao' => self::clean($razao),
+		'cnpj' => self::clean($cnpj),
+		'nire' => self::clean($nire),
+		'fantasia' => self::clean($fantasia),
+		'razao_anterior' => self::clean($razao_anterior),
+		'data' => self::clean($data),
+		'fundacao' => self::clean($fundacao),
+		'encerramento' => self::clean($encerramento),
+		'inscr' => self::clean($inscr),
+		'situacao_cnpj' => self::clean($situacao_cnpj),
+		'dt_cnpj' => self::clean($dt_cnpj),
+		'consultado_cnpj' => self::clean($consultado_cnpj),
+		'situacao_sintegra' => self::clean($situacao_sintegra),
+		'dt_sintegra' => self::clean($dt_sintegra),
+		'consultado_sintegra' => self::clean($consultado_sintegra),
+		'natureza' => self::clean($natureza),
+		'faixa_func' => self::clean($faixa_func),
+		'filiais' => self::clean($filiais),
+		'ativ_prim' => self::clean($ativ_prim),
+		'ativ_sec' => self::clean($ativ_sec),
+		'cidades' => self::clean($cidades)
 		
 		];
 		
 		if(count($localizacao) > 1) {
 			$localizacaoOk = [
-			'endereco' => $endereco,
-			'bairro' => $bairro,
-			'cidade' => $cidade,
-			'cep' => $cep,
-			'tel' => $tel
+			'endereco' => self::clean($endereco),
+			'bairro' => self::clean($bairro),
+			'cidade' => self::clean($cidade),
+			'cep' => self::clean($cep),
+			'tel' => self::clean($tel)
 			];
 		} else {
 			$localizacaoOk = [];
 		}
 		
 		$scoreOk = [
-		'score' => $num_scoreEmp[2],
-		'legenda' => $texto_scoreEmp
+		'score' => self::clean($num_scoreEmp[2]),
+		'legenda' => self::clean($texto_scoreEmp)
 		];
 		
 		$scoreAtacOk = [
-		'score' => $num_scoreAta[2],
-		'legenda' => $texto_scoreAta
+		'score' => self::clean($num_scoreAta[2]),
+		'legenda' => self::clean($texto_scoreAta)
 		];
 		
 		if(!$faturamento_nao_calculado) {
 			$faturamentoPresumidoOk = [
-			'faixaFaturamento' => $faixaFaturamento,
-			'faturamentoAnual' => $faturamentoAnual,
-			'legenda' => $texto_faturamento
+			'faixaFaturamento' => self::clean($faixaFaturamento),
+			'faturamentoAnual' => self::clean($faturamentoAnual),
+			'legenda' => self::clean($texto_faturamento)
 			];
 		}else{
 			$faturamentoPresumidoOk = [];
@@ -586,59 +595,59 @@ class CnpjJson {
 		
 		$painelOk = [
 		'titulos_a_vencer' => [
-		'qnt' => $titulosQtde,
-		'data' => $titulosData,
-		'valor' => $titulosValor
+		'qnt' => self::clean($titulosQtde),
+		'data' => self::clean($titulosData),
+		'valor' => self::clean($titulosValor)
 		],
 		'comportamento_de_pagamentos' => [
-		'qnt' => $comportamentoQtde,
-		'data' => $comportamentoData,
-		'valor' => $comportamentoValor
+		'qnt' => self::clean($comportamentoQtde),
+		'data' => self::clean($comportamentoData),
+		'valor' => self::clean($comportamentoValor)
 		],
 		'pendencias_restricoes_financeiras' => [
-		'qnt' => $pendenciasQtde,
-		'data' => $pendenciasData,
-		'valor' => $pendenciasValor
+		'qnt' => self::clean($pendenciasQtde),
+		'data' => self::clean($pendenciasData),
+		'valor' => self::clean($pendenciasValor)
 		],
 		'cheques_sustados_motivo21' => [
-		'qnt' => $sustadosQtde,
-		'data' => $sustadosData,
-		'valor' => $sustadosValor
+		'qnt' => self::clean($sustadosQtde),
+		'data' => self::clean($sustadosData),
+		'valor' => self::clean($sustadosValor)
 		],
 		'cheques_sem_fundo' => [
-		'qnt' => $chequeSemFundoQtde,
-		'data' => $chequeSemFundoData,
-		'valor' => $chequeSemFundoValor
+		'qnt' => self::clean($chequeSemFundoQtde),
+		'data' => self::clean($chequeSemFundoData),
+		'valor' => self::clean($chequeSemFundoValor)
 		],
 		'protestos' => [
-		'qnt' => $protestosQtde,
-		'data' => $protestosData,
-		'valor' => $protestosValor
+		'qnt' => self::clean($protestosQtde),
+		'data' => self::clean($protestosData),
+		'valor' => self::clean($protestosValor)
 		],
 		'recuperacoes_e_falencias' => [
-		'qnt' => $recuperacaoQtde,
-		'data' => $recuperacaoData,
-		'valor' => $recuperacaoValor
+		'qnt' => self::clean($recuperacaoQtde),
+		'data' => self::clean($recuperacaoData),
+		'valor' => self::clean($recuperacaoValor)
 		],
 		'acoes_judiciais' => [
-		'qnt' => $acoesQtde,
-		'data' => $acoesData,
-		'valor' => $acoesValor
+		'qnt' => self::clean($acoesQtde),
+		'data' => self::clean($acoesData),
+		'valor' => self::clean($acoesValor)
 		],
 		'socios' => [
-		'qnt' => $sociosQtde,
-		'data' => $sociosData,
-		'valor' => $sociosValor
+		'qnt' => self::clean($sociosQtde),
+		'data' => self::clean($sociosData),
+		'valor' => self::clean($sociosValor)
 		],
 		'administradores' => [
-		'qnt' => $adminQtde,
-		'data' => $adminData,
-		'valor' => $adminValor
+		'qnt' => self::clean($adminQtde),
+		'data' => self::clean($adminData),
+		'valor' => self::clean($adminValor)
 		],
 		'particopacoes_em_empresas' => [
-		'qnt' => $participacoesQtde,
-		'data' => $participacoesData,
-		'valor' => $participacoesValor
+		'qnt' => self::clean($participacoesQtde),
+		'data' => self::clean($participacoesData),
+		'valor' => self::clean($participacoesValor)
 		]
 		];
 		
@@ -647,19 +656,19 @@ class CnpjJson {
 		if(count($arrTitulos)>1) {
 			for($i = 2; $i < count($arrTitulos)-2; $i++) {
 				$titulosOk['titulos_a_vencer'] = [
-				'periodo' => $arrTitulos[$i][0],
-				'fornecedores' => $arrTitulos[$i][1],
-				'titulos' => $arrTitulos[$i][2],
-				'valor' => $arrTitulos[$i][3]
+				'periodo' => self::clean($arrTitulos[$i][0]),
+				'fornecedores' => self::clean($arrTitulos[$i][1]),
+				'titulos' => self::clean($arrTitulos[$i][2]),
+				'valor' => self::clean($arrTitulos[$i][3])
 				];
 			}
 			
 			$penult = count($arrTitulos)-2;
 			$titulosOk['total'] = [
 			'periodo' => 'Total',
-			'fornecedores' => $arrTitulos[$penult][1],
-			'titulos' => $arrTitulos[$penult][2],
-			'valor' => $arrTitulos[$penult][3]
+			'fornecedores' => self::clean($arrTitulos[$penult][1]),
+			'titulos' => self::clean($arrTitulos[$penult][2]),
+			'valor' => self::clean($arrTitulos[$penult][3])
 			];
 			
 		} else {
@@ -672,34 +681,34 @@ class CnpjJson {
 			
 			for($i = 4; $i < count($arrComportamento)-1; $i++) {
 				$compoartamento_de_pagamentoOk[] = [
-				'periodo' => $arrComportamento[$i][0],
-				'fornecedores' => $arrComportamento[$i][1],
-				'titulos' => $arrComportamento[$i][2],
-				'valor_total' => $arrComportamento[$i][3],
-				'a_vista' => $arrComportamento[$i][4],
-				'pontual' => $$arrComportamento[$i][5],
+				'periodo' => self::clean($arrComportamento[$i][0]),
+				'fornecedores' => self::clean($arrComportamento[$i][1]),
+				'titulos' => self::clean($arrComportamento[$i][2]),
+				'valor_total' => self::clean($arrComportamento[$i][3]),
+				'a_vista' => self::clean($arrComportamento[$i][4]),
+				'pontual' => self::clean($arrComportamento[$i][5]),
 				'dias_de_atraso' => [
-				'6_a_15' => $arrComportamento[$i][6],
-				'16_a_30' => $arrComportamento[$i][7],
-				'31_a_60' => $arrComportamento[$i][8],
-				'mais_de_60' => $arrComportamento[$i][9],
-				'atraso_medio_dias' => $arrComportamento[$i][10]
+				'6_a_15' => self::clean($arrComportamento[$i][6]),
+				'16_a_30' => self::clean($arrComportamento[$i][7]),
+				'31_a_60' => self::clean($arrComportamento[$i][8]),
+				'mais_de_60' => self::clean($arrComportamento[$i][9]),
+				'atraso_medio_dias' => self::clean($arrComportamento[$i][10])
 				]
 				];
 			}
 			
 			$compoartamento_de_pagamentoOk['total'] = [
-				'periodo' => $arrComportamento[3][1],
-				'fornecedores' => $arrComportamento[3][2],
-				'titulos' => $arrComportamento[3][3],
-				'valor_total' => $arrComportamento[3][4],
-				'a_vista' => $arrComportamento[3][5],
-				'pontual' => $arrComportamento[3][6],
+				'periodo' => self::clean($arrComportamento[3][1]),
+				'fornecedores' => self::clean($arrComportamento[3][2]),
+				'titulos' => self::clean($arrComportamento[3][3]),
+				'valor_total' => self::clean($arrComportamento[3][4]),
+				'a_vista' => self::clean($arrComportamento[3][5]),
+				'pontual' => self::clean($arrComportamento[3][6]),
 				'dias_de_atraso' => [
-					'6_a_15' => $arrComportamento[3][7],
-					'16_a_30' => $arrComportamento[3][8],
-					'31_a_60' => $arrComportamento[3][9],
-					'mais_de_60' => $arrComportamento[3][10]
+					'6_a_15' => self::clean($arrComportamento[3][7]),
+					'16_a_30' => self::clean($arrComportamento[3][8]),
+					'31_a_60' => self::clean($arrComportamento[3][9]),
+					'mais_de_60' => self::clean($arrComportamento[3][10])
 				]
 			];
 		}
@@ -707,16 +716,16 @@ class CnpjJson {
 		$pendenias_restricoesOk = [];
 		if(stristr($arrPendencias[2][0], 'Total')) {
 			$pendenias_restricoesOk['total'] = [
-			'total_pendencias' => $totalPendencias,
-			'total_credores' => $totalCredores,
-			'valor' => $valorPendencias
+			'total_pendencias' => self::clean($totalPendencias),
+			'total_credores' => self::clean($totalCredores),
+			'valor' => self::clean($valorPendencias)
 			];
 			
 			for($i = 5; $i <= count($arrPendencias)-1; $i++) {
 				$pendenias_restricoesOk[] = [
-				'data' => strip_tags($arrPendencias[$i][1]),
-				'credor' => strip_tags($arrPendencias[$i][2]),
-				'valor' => strip_tags($arrPendencias[$i][3])
+				'data' => self::clean(strip_tags($arrPendencias[$i][1])),
+				'credor' => self::clean(strip_tags($arrPendencias[$i][2])),
+				'valor' => self::clean(strip_tags($arrPendencias[$i][3]))
 				];
 			}
 		}
@@ -726,32 +735,32 @@ class CnpjJson {
 			
 			for($i = 4; $i < count($arrSemFundo)-1; $i++) {
 				$cheques_sem_fundoOk[] = [
-				'qnt' => $arrSemFundo[$i][0],
-				'data_ultimo' => $arrSemFundo[$i][1],
-				'banco' => $arrSemFundo[$i][2],
-				'agencia' => $arrSemFundo[$i][3],
-				'motivo' => $arrSemFundo[$i][4]
+				'qnt' => self::clean($arrSemFundo[$i][0]),
+				'data_ultimo' => self::clean($arrSemFundo[$i][1]),
+				'banco' => self::clean($arrSemFundo[$i][2]),
+				'agencia' => self::clean($arrSemFundo[$i][3]),
+				'motivo' => self::clean($arrSemFundo[$i][4])
 				];
 			}
 			
-			$cheques_sem_fundoOk['total'] = $totalCheques;
+			$cheques_sem_fundoOk['total'] = self::clean($totalCheques);
 		}
 		
 		$protestosOk = [];
 		if(!stristr($protestosQtde, '-')) {
 			$protestosOk['total'] = [
-			'qnt' => $protestosQtde,
-			'valor' => $protestosValor
+			'qnt' => self::clean($protestosQtde),
+			'valor' => self::clean($protestosValor)
 			];
 			
 			for($i = 7; $i <= count($arrProtestos); $i++) {
 				$protestosOk[] = [
-				'data' => $arrProtestos[$i][1],
-				'vencimento' => $arrProtestos[$i][3],
-				'cartorio' => $arrProtestos[$i][4],
-				'cidade' => $arrProtestos[$i][5],
-				'uf' => $arrProtestos[$i][6],
-				'valor' => $arrProtestos[$i][7]
+				'data' => self::clean($arrProtestos[$i][1]),
+				'vencimento' => self::clean($arrProtestos[$i][3]),
+				'cartorio' => self::clean($arrProtestos[$i][4]),
+				'cidade' => self::clean($arrProtestos[$i][5]),
+				'uf' => self::clean($arrProtestos[$i][6]),
+				'valor' => self::clean($arrProtestos[$i][7])
 				];
 			}
 		}
@@ -760,12 +769,12 @@ class CnpjJson {
 		if(!stristr($arrBlocoRFAJ[0], 'Nada Consta.')) {
 			for($i = 2; $i < count($arrBlocoRFAJ); $i++) {
 				$rec_falencia_aocesOk[] = [
-				'qnt' => $arrBlocoRFAJ[$i][1],
-				'tipo' => $arrBlocoRFAJ[$i][2],
-				'data' => $arrBlocoRFAJ[$i][3],
-				'vara' => $arrBlocoRFAJ[$i][4],
-				'uf' => $arrBlocoRFAJ[$i][5],
-				'cidade' => $arrBlocoRFAJ[$i][6]
+				'qnt' => self::clean($arrBlocoRFAJ[$i][1]),
+				'tipo' => self::clean($arrBlocoRFAJ[$i][2]),
+				'data' => self::clean($arrBlocoRFAJ[$i][3]),
+				'vara' => self::clean($arrBlocoRFAJ[$i][4]),
+				'uf' => self::clean($arrBlocoRFAJ[$i][5]),
+				'cidade' => self::clean($arrBlocoRFAJ[$i][6])
 				];
 			}
 		}
@@ -773,16 +782,16 @@ class CnpjJson {
 		$sociosOk = [];
 		if(count($arrBlocoSocios) > 1) {
 			$sociosOk['total'] = [
-			'capital_social' => $socioCapital[1],
-			'atualizacao_na_junta' => $socioJunta[1]
+			'capital_social' => self::clean($socioCapital[1]),
+			'atualizacao_na_junta' => self::clean($socioJunta[1])
 			];
 			
 			for($i = 3; $i < count($arrBlocoSocios); $i++) {
 				$sociosOk[] = [
-				'cpf_cnpj' => $arrBlocoSocios[$i][2],
-				'socios_acionistas' => $arrBlocoSocios[$i][3], 
-				'entrada' => $arrBlocoSocios[$i][4],
-				'participacao' => $arrBlocoSocios[$i][5]
+				'cpf_cnpj' => self::clean($arrBlocoSocios[$i][2]),
+				'socios_acionistas' => self::clean($arrBlocoSocios[$i][3]),
+				'entrada' => self::clean($arrBlocoSocios[$i][4]),
+				'participacao' => self::clean($arrBlocoSocios[$i][5])
 				];
 			}
 		}
@@ -790,19 +799,19 @@ class CnpjJson {
 		$administradoresOk = [];
 		if(!stristr($arrAdm[0], 'Nada Consta.')) {
 			$administradoresOk['total'] = [
-			'capital_social' => $admCapital,
-			'atualizacao_na_junta' => $admJunta
+			'capital_social' => self::clean($admCapital),
+			'atualizacao_na_junta' => self::clean($admJunta)
 			];
 			
 			for($i = $inicio; $i < count($arrAdm); $i++) {
 				$administradoresOk[] = [
-				'cpf_cnpj' => $arrAdm[$i][2],
-				'administracao' => $arrAdm[$i][3],
-				'cargo' => $arrAdm[$i][4],
-				'nacionalidade' => $arrAdm[$i][5],
-				'estado_civil' => $arrAdm[$i][6],
-				'entrada' => $arrAdm[$i][7],
-				'mandato' => $arrAdm[$i][8]
+				'cpf_cnpj' => self::clean($arrAdm[$i][2]),
+				'administracao' => self::clean($arrAdm[$i][3]),
+				'cargo' => self::clean($arrAdm[$i][4]),
+				'nacionalidade' => self::clean($arrAdm[$i][5]),
+				'estado_civil' => self::clean($arrAdm[$i][6]),
+				'entrada' => self::clean($arrAdm[$i][7]),
+				'mandato' => self::clean($arrAdm[$i][8])
 				];
 			}
 		}
@@ -812,11 +821,11 @@ class CnpjJson {
 			
 			for($i = 2; $i < count($arrParticipacao); $i++) {
 				$participacoesEmpresasOk[] = [
-				'cnpj_participada' => $arrParticipacao[$i][2],
-				'razao_social_participada' => $arrParticipacao[$i][3],
-				'entrada' => $arrParticipacao[$i][4],
-				'capital' => $arrParticipacao[$i][5],
-				'cnpj_cpf_participante' => $arrParticipacao[$i][6]
+				'cnpj_participada' => self::clean($arrParticipacao[$i][2]),
+				'razao_social_participada' => self::clean($arrParticipacao[$i][3]),
+				'entrada' => self::clean($arrParticipacao[$i][4]),
+				'capital' => self::clean($arrParticipacao[$i][5]),
+				'cnpj_cpf_participante' => self::clean($arrParticipacao[$i][6])
 				];
 			}
 		}
@@ -824,21 +833,21 @@ class CnpjJson {
 		$referenciasDeNegociosOk = [];
 		if(count($arrRef)>1) {
 			$referenciasDeNegociosOk['ultima_compra'] = [
-			'data' => $arrRef[2][2],
-			'valor' => $arrRef[2][3],
-			'media' => $arrRef[2][4]
+			'data' => self::clean($arrRef[2][2]),
+			'valor' => self::clean($arrRef[2][3]),
+			'media' => self::clean($arrRef[2][4])
 			];
 			
 			$referenciasDeNegociosOk['maior_fatura'] = [
-			'data' => $arrRef[3][2],
-			'valor' => $arrRef[3][3],
-			'media' => $arrRef[3][4]
+			'data' => self::clean($arrRef[3][2]),
+			'valor' => self::clean($arrRef[3][3]),
+			'media' => self::clean($arrRef[3][4])
 			];
 			
 			$referenciasDeNegociosOk['maior_credito'] = [
-			'data' => $arrRef[4][2],
-			'valor' => $arrRef[4][3],
-			'media' => $arrRef[4][4]
+			'data' => self::clean($arrRef[4][2]),
+			'valor' => self::clean($arrRef[4][3]),
+			'media' => self::clean($arrRef[4][4])
 			];
 		}
 		
@@ -847,9 +856,9 @@ class CnpjJson {
 		if(count($arrFornecedores)>1) {
 			for($i = 2; $i < count($arrFornecedores)-1; $i++) {
 				$principaisFornecedoresOk[] = [
-				'cnpj' => $arrFornecedores[$i][1],
-				'razao_social' => $arrFornecedores[$i][2],
-				'cnae' => $arrFornecedores[$i][3]
+				'cnpj' => self::clean($arrFornecedores[$i][1]),
+				'razao_social' => self::clean($arrFornecedores[$i][2]),
+				'cnae' => self::clean($arrFornecedores[$i][3])
 				];
 			}
 		}
@@ -857,13 +866,13 @@ class CnpjJson {
 		$tempoRelacionamento = [];
 		if(count($blocoRelFor)>1) {
 			$tempoRelacionamento[] = [
-			'ate_6_meses' => $blocoRelFor[4],
-			'de_7_ate_12_meses' => $blocoRelFor[6],
-			'de_1_ate_2_anos' => $blocoRelFor[8],
-			'de_3_ate_5_anos' => $blocoRelFor[11],
-			'de_6_ate_10_anos' => $blocoRelFor[13],
-			'mais_de_10_anos' => $blocoRelFor[15],
-			'fontes_consultas' => $blocoRelFor[1]
+			'ate_6_meses' => self::clean($blocoRelFor[4]),
+			'de_7_ate_12_meses' => self::clean($blocoRelFor[6]),
+			'de_1_ate_2_anos' => self::clean($blocoRelFor[8]),
+			'de_3_ate_5_anos' => self::clean($blocoRelFor[11]),
+			'de_6_ate_10_anos' => self::clean($blocoRelFor[13]),
+			'mais_de_10_anos' => self::clean($blocoRelFor[15]),
+			'fontes_consultas' => self::clean($blocoRelFor[1])
 			];
 		} 
 		
@@ -872,9 +881,9 @@ class CnpjJson {
 		if(!stristr($arrInadimplencia[0], 'Nada Consta.')) {
 			for($i = 2; $i < count($arrInadimplencia)-1; $i++) {
 				$detalhesInadinplenciasParcipOk[] = [
-				'nome_razao' => $arrInadimplencia[$i][0],
-				'cpf_cnpj' => $arrInadimplencia[$i][1],
-				'tipo' => $arrInadimplencia[$i][2]
+				'nome_razao' => self::clean($arrInadimplencia[$i][0]),
+				'cpf_cnpj' => self::clean($arrInadimplencia[$i][1]),
+				'tipo' => self::clean($arrInadimplencia[$i][2])
 				];
 			}
 		}
@@ -883,8 +892,8 @@ class CnpjJson {
 		if(count($arrInfo)>1) {
 			for($i = 2; $i < count($arrInfo)-1; $i++) {
 				$informacoesRecentesOk[] = [
-				'data' => $arrInfo[$i][1],
-				'tipo' => $arrInfo[$i][2]
+				'data' => self::clean($arrInfo[$i][1]),
+				'tipo' => self::clean($arrInfo[$i][2])
 				];
 			}
 		}
@@ -904,7 +913,7 @@ class CnpjJson {
 		'cheques_sem_fundo' => $cheques_sem_fundoOk,
 		'protestos' => $protestosOk,
 		'recuperacoes_falencias_acoes_judiciais' => $rec_falencia_aocesOk,
-		'socios' => sociosOk,
+		'socios' => $sociosOk,
 		'administradores' => $administradoresOk,
 		'participacoes_em_empresas' => $participacoesEmpresasOk,
 		'referencias_de_negocios' => $referenciasDeNegociosOk,

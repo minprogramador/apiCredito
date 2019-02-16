@@ -98,14 +98,12 @@ class Consultar {
 			
 			$url = 'http://181.215.238.197/credito.php?token=bfc4abb1449d4d2d50e691f46a0aa916&doc='.$doc;
 			$dados = self::curl($url, null, null, null, false);
-			echo $dados;
-			die;
+
 			if(stristr($dados, 'ES CONFIDENCIAIS')) {
 
 				$limpar = new CnpjJson();
 				$ver = $limpar->run($dados);
-				print_r($ver);
-				die;
+
 				if($ver === false) {
 					$dataok = ['msg' => 'nada encontrado'];
 				}
