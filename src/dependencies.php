@@ -27,3 +27,13 @@ $container['logger'] = function ($c) {
     $logger->pushHandler($handler);
     return $logger;
 };
+
+$container['loggerPai'] = function ($c) {
+    $settings = $c->get('settings')['loggerPai'];
+    $logger = new Monolog\Logger($settings['name']);
+	$logger->pushProcessor(new Monolog\Processor\WebProcessor());
+	$logger->pushProcessor(new Monolog\Processor\UidProcessor());
+	$handler = new Monolog\Handler\StreamHandler($settings['path'], $settings['level']);
+    $logger->pushHandler($handler);
+    return $logger;
+};
